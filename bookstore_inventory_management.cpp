@@ -1,10 +1,100 @@
 #include <iostream>
 #include <vector>
 #include <string>
+
 using namespace std;
 
 // Variabel untuk loop
 string loop;
+
+// Fungsi edit buku
+void editBuku(vector<string> &databaseBuku)
+{
+    do
+    {
+        system("cls");
+        cout << "Edit buku" << endl;
+
+        // Menerima judul atau penulis buku yang akan diedit
+        string pencarian;
+        cout << "\nMasukkan judul atau penulis buku untuk dicari: ";
+        cin.ignore();
+        getline(cin, pencarian);
+
+        // Pencarian buku dengan algoritma sequential search
+        bool ditemukan = false;
+        for (size_t i = 0; i < databaseBuku.size(); ++i)
+        {
+            if (databaseBuku[i].find(pencarian) != string::npos)
+            {
+                // Edit data buku
+                string judulBaru, penulisBaru;
+
+                // Menerima judul buku baru
+                cout << "Masukkan judul buku baru: ";
+                getline(cin, judulBaru);
+
+                // Menerima penulis buku baru
+                cout << "Masukkan penulis buku baru: ";
+                getline(cin, penulisBaru);
+
+                // Menerima data buku baru
+                databaseBuku[i] = judulBaru + " - " + penulisBaru;
+                cout << "Data buku baru telah berhasil disimpan\n";
+                ditemukan = true;
+                break;
+            }
+        }
+
+        // Buku tidak ditemukan
+        if (!ditemukan)
+        {
+            cout << "Buku tidak ditemukan\n";
+        }
+
+        // Edit buku lagi
+        cout << "\nEdit buku lagi? (y/t): ";
+        cin >> loop;
+    } while (loop == "y");
+}
+
+// Fungsi cari buku
+void cariBuku(const vector<string> &databaseBuku)
+{
+    do
+    {
+        system("cls");
+        cout << "Cari buku" << endl;
+
+        // Menerima judul atau penulis buku yang dicari
+        string pencarian;
+        cout << "\nMasukkan judul atau penulis buku untuk dicari: ";
+        cin.ignore();
+        getline(cin, pencarian);
+
+        // Pencarian buku dengan algoritma sequential search
+        bool ditemukan = false;
+        for (size_t i = 0; i < databaseBuku.size(); ++i)
+        {
+            if (databaseBuku[i].find(pencarian) != string::npos)
+            {
+                // Menampilkan data buku yang telah ditemukan
+                cout << "\nBuku ditemukan: " << databaseBuku[i] << endl;
+                ditemukan = true;
+            }
+        }
+
+        // Buku tidak ditemukan
+        if (!ditemukan)
+        {
+            cout << "Buku tidak ditemukan\n";
+        }
+
+        // Cari buku lagi
+        cout << "\nCari buku lagi? (y/t): ";
+        cin >> loop;
+    } while (loop == "y");
+}
 
 // Fungsi tampilkan semua buku
 void tampilkanDatabase(const vector<string> &databaseBuku)
@@ -12,10 +102,14 @@ void tampilkanDatabase(const vector<string> &databaseBuku)
     do
     {
         system("cls");
+
+        // Keadaan database kosong
         if (databaseBuku.empty())
         {
             cout << "Database buku kosong\n";
         }
+
+        // Keadaan database berisi
         else
         {
             cout << "\nDatabase buku:\n"
@@ -25,6 +119,8 @@ void tampilkanDatabase(const vector<string> &databaseBuku)
                 cout << buku << endl;
             }
         }
+
+        // Kembali ke menu utama
         cout << "\nKetik t untuk kembali ke menu utama : ";
         cin >> loop;
     } while (loop == "y");
@@ -80,10 +176,10 @@ int main()
             tambahBuku(databaseBuku);
             break;
         case 2:
-            cout << "Cari buku" << endl;
+            cariBuku(databaseBuku);
             break;
         case 3:
-            cout << "Edit" << endl;
+            editBuku(databaseBuku);
             break;
         case 4:
             tampilkanDatabase(databaseBuku);
